@@ -1,23 +1,21 @@
 ---
-title: "A2"
-format: html
-editor: visual
+title: "Parallel Assignment"
+
 ---
 
 ## Setup:
 
 ```{r}
-library(parallel)
-library(foreach)
-library(doParallel)
-library(iterators)
-install.packages("usethis")
-usethis::use_git()
+suppressWarnings(suppressMessages(library(parallel)))
+suppressWarnings(suppressMessages(library(foreach)))
+suppressWarnings(suppressMessages(library(doParallel)))
+suppressWarnings(suppressMessages(library(iterators)))
+
 nocores <- detectCores()-1
 cl <- makeCluster(nocores) 
 registerDoParallel(cl)
-print(cl)
-print(getDoParWorkers())
+#print(cl)
+#print(getDoParWorkers()))
 ```
 
 ## Question 1:
@@ -29,7 +27,7 @@ q1 <- foreach(i=1:100, .combine = rbind) %dopar%{
   vars <- var(samples)
   c(means,vars)
 }
-
+print(q1)
 ```
 
 ## Question 2:
@@ -46,20 +44,25 @@ for (i in 1:B) {
   tboot[i] <- median(samples)
 }
 })
-#tboot
+
 para_time <- system.time({
 q2 <- foreach(i=1:B, .combine = c,.packages='MASS')%dopar%{
   samp <- sample(gal,size = length(gal), replace = TRUE)
   median(samp)
 }
 })
-#q2
+
 para2_time <- system.time({
 q2_large <- foreach(i=1:B, .combine = c,.packages='MASS')%dopar%{
   sam <- replicate(1000,sample(gal,size = length(gal), replace = TRUE))
   apply(sam,2,median)
 }
 })
+times <- data.frame(Type = c("Sequential", "Parallel", "Parallel (Large)"),
+  User = c(seq_time["user.self"], para_time["user.self"], para2_time["user.self"]),
+  System = c(seq_time["sys.self"], para_time["sys.self"], para2_time["sys.self"]),
+  Elapsed = c(seq_time["elapsed"], para_time["elapsed"], para2_time["elapsed"]))
+knitr::kable(times,digits =4)
 ```
 
 ## Question 3:
@@ -83,7 +86,7 @@ coverage_probs <- mean(percent_CI)
 ## Question 4:
 
 ```{r}
-system.time({
+foreach_time <- system.time({
 set.seed(1234)
 vectors <- 3
 nrv <- 5
@@ -105,11 +108,26 @@ print(maxc)
 
 ```{r}
 set.seed(1234)
-system.time({
+replicate_time <- system.time({
 repcalc <- replicate(3,max(rnorm(5))) })
+```
 
+
+```{r eval=FALSE}
 set.seed(1234)
-system.time({
+parApply_time <- system.time({
  parLapply(cl,x=1:vectors,fun = function(x){max(rnorm(5))})
 })
+```
+
+
+```{r}
+times2 <- data.frame(data.frame(
+  Type = c("foreach", "Replicate"),
+  User = c(foreach_time["user.self"], replicate_time["user.self"]),
+  System = c(foreach_time["sys.self"], replicate_time["sys.self"]),
+  Elapsed = c(foreach_time["elapsed"], replicate_time["elapsed"])
+))
+knitr::kable(times2,digits=4)
+stopCluster(cl)
 ```

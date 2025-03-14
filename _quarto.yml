@@ -1,5 +1,24 @@
 project:
-  title: "A2"
+  type: book
+  output-dir: _site
 
-
+book:
+  title: "Parallel Practical"
+  chapters:
+    - index.qmd
+    - A2.qmd
+  sidebar:
+    border: true
+    background: light
+    position: right
+  navbar:
+    background: light
+    
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    toc-location: left
+  
 

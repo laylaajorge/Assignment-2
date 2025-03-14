@@ -1,0 +1,62 @@
+[
+  {
+    "objectID": "A2.html",
+    "href": "A2.html",
+    "title": "2  Parallel Assignment",
+    "section": "",
+    "text": "2.1 Setup:\nsuppressWarnings(suppressMessages(library(parallel)))\nsuppressWarnings(suppressMessages(library(foreach)))\nsuppressWarnings(suppressMessages(library(doParallel)))\nsuppressWarnings(suppressMessages(library(iterators)))\n\nnocores &lt;- detectCores()-1\ncl &lt;- makeCluster(nocores) \nregisterDoParallel(cl)\n#print(cl)\n#print(getDoParWorkers()))",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parallel Assignment</span>"
+    ]
+  },
+  {
+    "objectID": "A2.html#question-1",
+    "href": "A2.html#question-1",
+    "title": "2  Parallel Assignment",
+    "section": "2.2 Question 1:",
+    "text": "2.2 Question 1:\n\nq1 &lt;- foreach(i=1:100, .combine = rbind) %dopar%{\n  samples &lt;- rexp(100,1)\n  means &lt;- mean(samples)\n  vars &lt;- var(samples)\n  c(means,vars)\n}\nprint(q1)\n\n                [,1]      [,2]\nresult.1   0.9724660 0.8424908\nresult.2   0.9311022 0.7224771\nresult.3   0.8833296 0.7724588\nresult.4   0.9476237 0.7372071\nresult.5   0.8718555 0.7487547\nresult.6   0.9375096 0.9302227\nresult.7   1.0322047 1.2449689\nresult.8   0.9103942 0.7613404\nresult.9   0.7976338 0.5716648\nresult.10  0.8828633 0.7990982\nresult.11  0.8409172 0.7751997\nresult.12  0.9734116 0.9072500\nresult.13  1.0336511 0.9952987\nresult.14  0.8664075 0.9379262\nresult.15  1.1528378 1.2990074\nresult.16  0.9071542 0.8313364\nresult.17  1.0460731 1.4906423\nresult.18  1.0494589 0.8297719\nresult.19  1.1620337 1.2807580\nresult.20  0.9896072 1.1384125\nresult.21  0.9021730 1.0184010\nresult.22  1.0676624 0.9478698\nresult.23  0.9961786 1.1312312\nresult.24  0.9163335 0.8624609\nresult.25  1.0739953 1.4254711\nresult.26  1.0409233 1.0480387\nresult.27  0.9977991 1.0237674\nresult.28  1.0661897 1.1345265\nresult.29  0.8869869 0.7144454\nresult.30  1.0591943 1.4302776\nresult.31  0.9887663 0.6142077\nresult.32  0.8656840 0.8991823\nresult.33  1.0107719 0.8043987\nresult.34  1.0295853 0.7716047\nresult.35  0.7937920 0.5320496\nresult.36  1.0230008 0.8174361\nresult.37  0.8951152 0.9147839\nresult.38  0.8832097 0.5553466\nresult.39  1.1859863 1.4300320\nresult.40  1.1738945 1.9241061\nresult.41  1.1341681 1.5609326\nresult.42  0.9519836 1.0478691\nresult.43  0.9610693 0.6667678\nresult.44  1.0827553 1.4282324\nresult.45  1.0148355 0.9403540\nresult.46  1.1938540 0.9135303\nresult.47  1.0828523 1.0094811\nresult.48  1.0783988 0.9079242\nresult.49  0.9272602 0.7082918\nresult.50  1.1278345 1.1667852\nresult.51  1.0236745 1.1017414\nresult.52  0.9712207 1.3474632\nresult.53  1.0242134 0.9531220\nresult.54  0.9400494 0.9639335\nresult.55  1.0421255 1.2423668\nresult.56  1.1318161 1.1359249\nresult.57  0.9310667 0.9726528\nresult.58  1.0239833 0.6348573\nresult.59  0.8113015 0.7662566\nresult.60  0.9217767 0.7495464\nresult.61  1.1414456 1.3267882\nresult.62  1.0940367 1.1104054\nresult.63  1.0382429 0.8408551\nresult.64  0.9206242 0.6674127\nresult.65  0.8478433 0.7773261\nresult.66  1.0073936 0.9774483\nresult.67  1.0177829 0.9235305\nresult.68  1.1852315 1.9978813\nresult.69  1.0708189 1.5994846\nresult.70  1.0896150 0.8952156\nresult.71  0.9529034 0.6772410\nresult.72  0.9319294 0.7795170\nresult.73  1.1671098 1.1370999\nresult.74  1.0556653 1.5180412\nresult.75  0.9435128 0.8451296\nresult.76  0.9350719 0.8450020\nresult.77  0.9494004 0.7070663\nresult.78  0.9729932 0.7601719\nresult.79  0.9467116 0.8476889\nresult.80  0.9647719 0.8038138\nresult.81  0.9044716 1.1093113\nresult.82  0.9510119 0.7895224\nresult.83  0.9635890 0.7889257\nresult.84  0.9570796 0.8026102\nresult.85  1.0120619 0.9944403\nresult.86  1.0860743 1.1798040\nresult.87  1.1316732 1.5331383\nresult.88  0.8957896 0.8248406\nresult.89  0.9054125 0.9623559\nresult.90  0.9416702 1.2446862\nresult.91  1.0108729 1.0361139\nresult.92  1.0325799 0.9618077\nresult.93  1.0297963 1.1234493\nresult.94  0.9166881 0.7813343\nresult.95  0.9228084 0.8158674\nresult.96  1.1822661 1.2216733\nresult.97  1.0022530 1.3089677\nresult.98  0.9415549 0.8455249\nresult.99  1.0090978 1.0831151\nresult.100 1.0150693 0.9648409",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parallel Assignment</span>"
+    ]
+  },
+  {
+    "objectID": "A2.html#question-2",
+    "href": "A2.html#question-2",
+    "title": "2  Parallel Assignment",
+    "section": "2.3 Question 2:",
+    "text": "2.3 Question 2:\n\nlibrary(MASS)   \ngal &lt;- galaxies\nB &lt;- 1000\nseq_time &lt;- system.time({\n\ntboot &lt;- numeric(B)\nfor (i in 1:B) {\n  samples &lt;- sample(gal, size = length(gal), replace = TRUE)\n  tboot[i] &lt;- median(samples)\n}\n})\n\npara_time &lt;- system.time({\nq2 &lt;- foreach(i=1:B, .combine = c,.packages='MASS')%dopar%{\n  samp &lt;- sample(gal,size = length(gal), replace = TRUE)\n  median(samp)\n}\n})\n\npara2_time &lt;- system.time({\nq2_large &lt;- foreach(i=1:B, .combine = c,.packages='MASS')%dopar%{\n  sam &lt;- replicate(1000,sample(gal,size = length(gal), replace = TRUE))\n  apply(sam,2,median)\n}\n})\ntimes &lt;- data.frame(Type = c(\"Sequential\", \"Parallel\", \"Parallel (Large)\"),\n  User = c(seq_time[\"user.self\"], para_time[\"user.self\"], para2_time[\"user.self\"]),\n  System = c(seq_time[\"sys.self\"], para_time[\"sys.self\"], para2_time[\"sys.self\"]),\n  Elapsed = c(seq_time[\"elapsed\"], para_time[\"elapsed\"], para2_time[\"elapsed\"]))\nknitr::kable(times,digits =4)\n\n\n\n\nType\nUser\nSystem\nElapsed\n\n\n\n\nSequential\n0.06\n0.03\n0.11\n\n\nParallel\n0.47\n0.11\n0.76\n\n\nParallel (Large)\n1.09\n0.31\n15.55",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parallel Assignment</span>"
+    ]
+  },
+  {
+    "objectID": "A2.html#question-3",
+    "href": "A2.html#question-3",
+    "title": "2  Parallel Assignment",
+    "section": "2.4 Question 3:",
+    "text": "2.4 Question 3:\n\npercent_CI &lt;- foreach(i=1:B, .combine = c)%dopar%{\n  expdata &lt;- rexp(50,1)\n  bootsamp &lt;- replicate(1000,mean(sample(expdata,replace=TRUE)))\n  lb &lt;- quantile(bootsamp,0.025)\n  up &lt;- quantile(bootsamp,0.975)\n  if (1 &gt;=lb && 1 &lt;=up){\n    return(1)\n  }\n  else{\n    return(0)\n  }\n}\ncoverage_probs &lt;- mean(percent_CI)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parallel Assignment</span>"
+    ]
+  },
+  {
+    "objectID": "A2.html#question-4",
+    "href": "A2.html#question-4",
+    "title": "2  Parallel Assignment",
+    "section": "2.5 Question 4:",
+    "text": "2.5 Question 4:\n\nforeach_time &lt;- system.time({\nset.seed(1234)\nvectors &lt;- 3\nnrv &lt;- 5\n#veclist &lt;- as.list(irnorm(vectors,nrv))\n\nitera &lt;- irnorm(vectors,nrv)\n\n\nmaxc &lt;- foreach(i=1:vectors,vec=itera,.combine=c)%do%{\n  max(vec)\n}\n#print('done')\n\nprint(maxc)\n})\n\n[1] 6.084441 5.506056 4.453368",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parallel Assignment</span>"
+    ]
+  },
+  {
+    "objectID": "A2.html#question-5",
+    "href": "A2.html#question-5",
+    "title": "2  Parallel Assignment",
+    "section": "2.6 Question 5:",
+    "text": "2.6 Question 5:\n\nset.seed(1234)\nreplicate_time &lt;- system.time({\nrepcalc &lt;- replicate(3,max(rnorm(5))) })\n\n\nset.seed(1234)\nparApply_time &lt;- system.time({\n parLapply(cl,x=1:vectors,fun = function(x){max(rnorm(5))})\n})\n\n\ntimes2 &lt;- data.frame(data.frame(\n  Type = c(\"foreach\", \"Replicate\"),\n  User = c(foreach_time[\"user.self\"], replicate_time[\"user.self\"]),\n  System = c(foreach_time[\"sys.self\"], replicate_time[\"sys.self\"]),\n  Elapsed = c(foreach_time[\"elapsed\"], replicate_time[\"elapsed\"])\n))\nknitr::kable(times2,digits=4)\n\n\n\n\nType\nUser\nSystem\nElapsed\n\n\n\n\nforeach\n0\n0\n0.00\n\n\nReplicate\n0\n0\n0.02\n\n\n\n\nstopCluster(cl)",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Parallel Assignment</span>"
+    ]
+  }
+]

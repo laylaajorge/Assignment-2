@@ -1,0 +1,12 @@
+---
+title: "Index"
+---
+
+This site contains the parallel practical
+
+Below is link to my Github :
+
+```{r}
+
+browseURL("https://github.com/laylaajorge/Assignment-2")
+```
