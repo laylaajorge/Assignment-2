@@ -81,6 +81,7 @@ percent_CI <- foreach(i=1:B, .combine = c)%dopar%{
   }
 }
 coverage_probs <- mean(percent_CI)
+print(coverage_probs)
 ```
 
 ## Question 4:
