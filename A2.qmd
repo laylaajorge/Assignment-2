@@ -1,0 +1,115 @@
+---
+title: "A2"
+format: html
+editor: visual
+---
+
+## Setup:
+
+```{r}
+library(parallel)
+library(foreach)
+library(doParallel)
+library(iterators)
+install.packages("usethis")
+usethis::use_git()
+nocores <- detectCores()-1
+cl <- makeCluster(nocores) 
+registerDoParallel(cl)
+print(cl)
+print(getDoParWorkers())
+```
+
+## Question 1:
+
+```{r}
+q1 <- foreach(i=1:100, .combine = rbind) %dopar%{
+  samples <- rexp(100,1)
+  means <- mean(samples)
+  vars <- var(samples)
+  c(means,vars)
+}
+
+```
+
+## Question 2:
+
+```{r}
+library(MASS)   
+gal <- galaxies
+B <- 1000
+seq_time <- system.time({
+
+tboot <- numeric(B)
+for (i in 1:B) {
+  samples <- sample(gal, size = length(gal), replace = TRUE)
+  tboot[i] <- median(samples)
+}
+})
+#tboot
+para_time <- system.time({
+q2 <- foreach(i=1:B, .combine = c,.packages='MASS')%dopar%{
+  samp <- sample(gal,size = length(gal), replace = TRUE)
+  median(samp)
+}
+})
+#q2
+para2_time <- system.time({
+q2_large <- foreach(i=1:B, .combine = c,.packages='MASS')%dopar%{
+  sam <- replicate(1000,sample(gal,size = length(gal), replace = TRUE))
+  apply(sam,2,median)
+}
+})
+```
+
+## Question 3:
+
+```{r}
+percent_CI <- foreach(i=1:B, .combine = c)%dopar%{
+  expdata <- rexp(50,1)
+  bootsamp <- replicate(1000,mean(sample(expdata,replace=TRUE)))
+  lb <- quantile(bootsamp,0.025)
+  up <- quantile(bootsamp,0.975)
+  if (1 >=lb && 1 <=up){
+    return(1)
+  }
+  else{
+    return(0)
+  }
+}
+coverage_probs <- mean(percent_CI)
+```
+
+## Question 4:
+
+```{r}
+system.time({
+set.seed(1234)
+vectors <- 3
+nrv <- 5
+#veclist <- as.list(irnorm(vectors,nrv))
+
+itera <- irnorm(vectors,nrv)
+
+
+maxc <- foreach(i=1:vectors,vec=itera,.combine=c)%do%{
+  max(vec)
+}
+#print('done')
+
+print(maxc)
+})
+```
+
+## Question 5:
+
+```{r}
+set.seed(1234)
+system.time({
+repcalc <- replicate(3,max(rnorm(5))) })
+
+set.seed(1234)
+system.time({
+ parLapply(cl,x=1:vectors,fun = function(x){max(rnorm(5))})
+})
+```
